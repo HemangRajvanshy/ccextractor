@@ -326,6 +326,7 @@ void print_usage (void)
 	mprint ("subtitle file with contiguous timing.\n\n");
 	mprint ("Output file segmentation:\n");
 	mprint ("    -outinterval x output in interval of x seconds\n");
+	mprint ("    --noempty: Does not output empty file\n");
 	mprint ("   --segmentonkeyonly -key: When segmenting files, do it only after a I frame\n");
 	mprint ("                            trying to behave like FFmpeg\n\n");
 	mprint ("Network support:\n");
@@ -1357,6 +1358,11 @@ int parse_parameters (struct ccx_s_options *opt, int argc, char *argv[])
 				strcmp (argv[i],"--nofontcolor")==0)
 		{
 			opt->nofontcolor=1;
+			continue;
+		}
+		if (strcmp(argv[i], "--noempty") == 0)
+		{
+			opt->noempty = 1;
 			continue;
 		}
 		if (strcmp (argv[i],"--nohtmlescape")==0)

@@ -89,6 +89,7 @@ struct ccx_s_options // Options from user parameters
 	int nofontcolor;
 	int nohtmlescape;
 	int notypesetting;
+	int noempty;											   // Empty file: generated or not
 	struct ccx_boundary_time extraction_start, extraction_end; // Segment we actually process
 	int print_file_reports;
 

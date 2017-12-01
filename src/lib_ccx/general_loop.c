@@ -527,8 +527,9 @@ int raw_loop (struct lib_ccx_ctx *ctx)
 	LLONG ret;
 	struct demuxer_data *data = NULL;
 	struct cc_subtitle *dec_sub = NULL;
-	struct encoder_ctx *enc_ctx = update_encoder_list(ctx);
+	struct encoder_ctx *enc_ctx = NULL;
 	struct lib_cc_decode *dec_ctx = NULL;
+	int encoderInit = false;
 	int caps = 0;
 
 	dec_ctx = update_decoder_list(ctx);
@@ -536,6 +537,12 @@ int raw_loop (struct lib_ccx_ctx *ctx)
 
 	set_current_pts(dec_ctx->timing, 90);
 	set_fts(dec_ctx->timing); // Now set the FTS related variables
+
+	if (!ccx_options.noempty)
+	{
+		(enc_ctx) = update_encoder_list(ctx);
+		encoderInit = true;
+	}
 
 	do
 	{
@@ -549,6 +556,12 @@ int raw_loop (struct lib_ccx_ctx *ctx)
 		ret = process_raw(dec_ctx, dec_sub, data->buffer, data->len);
 		if (dec_sub->got_output)
 		{
+			if (encoderInit == false)
+			{
+				mprint("CALLED DURING LOOP EVEN THOUGH EMPTY");
+				(enc_ctx) = update_encoder_list(ctx);
+				encoderInit = true;
+			}
 			caps = 1;
 			encode_sub(enc_ctx, dec_sub);
 			dec_sub->got_output = 0;

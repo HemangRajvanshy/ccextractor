@@ -781,7 +781,7 @@ static int init_output_ctx(struct encoder_ctx *ctx, struct encoder_cfg *cfg)
 	int nb_lang;
 	char *basefilename = NULL; // Input filename without the extension
 	char *extension = NULL; // Input filename without the extension
-
+	mprint(" I GOT CALLED \n");
 #define check_ret(filename) 	if (ret != EXIT_OK)	\
 				{									\
 					fatal(CCX_COMMON_EXIT_FILE_CREATION_FAILED,"Failed to open output file: %s\nDetails : %s\n", filename, strerror(errno)); \
@@ -792,7 +792,6 @@ static int init_output_ctx(struct encoder_ctx *ctx, struct encoder_cfg *cfg)
 		nb_lang = 2;
 	else
 		nb_lang = 1;
-
 	ctx->out = malloc(sizeof(struct ccx_s_write) * nb_lang);
 	if(!ctx->out)
 		return -1;
@@ -1070,6 +1069,9 @@ struct ccx_s_write *get_output_ctx(struct encoder_ctx *ctx, int lan)
 
 int encode_sub(struct encoder_ctx *context, struct cc_subtitle *sub)
 {
+	mprint("\n \n CALLED!!!!!!!! ENCODING SUBS \n \n");
+
+
 	int wrote_something = 0;
 	int ret = 0;
 

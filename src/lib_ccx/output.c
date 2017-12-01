@@ -49,7 +49,6 @@ int temporarily_open_output(struct ccx_s_write *wb)
 }
 
 
-
 int init_write (struct ccx_s_write *wb, char *filename, int with_semaphore)
 {
 #ifdef ENABLE_PYTHON
@@ -64,6 +63,7 @@ int init_write (struct ccx_s_write *wb, char *filename, int with_semaphore)
         return EXIT_OK;
     }
 #endif
+
 	memset(wb, 0, sizeof(struct ccx_s_write));
 	wb->fh=-1;
 	wb->temporarily_closed = 0;
@@ -71,10 +71,13 @@ int init_write (struct ccx_s_write *wb, char *filename, int with_semaphore)
         
 	wb->with_semaphore = with_semaphore;
 	wb->append_mode = ccx_options.enc_cfg.append_mode;
-	if(!(wb->append_mode))
-		wb->fh = open (filename, O_RDWR | O_CREAT | O_TRUNC | O_BINARY, S_IREAD | S_IWRITE);
+
+	if (!(wb->append_mode))
+		wb->fh = open(filename, O_RDWR | O_CREAT | O_TRUNC | O_BINARY, S_IREAD | S_IWRITE);
 	else
-		wb->fh = open (filename, O_RDWR | O_CREAT | O_APPEND | O_BINARY, S_IREAD | S_IWRITE);
+		wb->fh = open(filename, O_RDWR | O_CREAT | O_APPEND | O_BINARY, S_IREAD | S_IWRITE);
+
+
 	wb->renaming_extension = 0;
 	if (wb->fh == -1)
 	{
@@ -94,6 +97,7 @@ int init_write (struct ccx_s_write *wb, char *filename, int with_semaphore)
 		}
 		close(t);
 	}
+
 	return EXIT_OK;
 }
 
@@ -103,7 +107,7 @@ int writeraw (const unsigned char *data, int length, void *private_data, struct 
 	// Don't do anything for empty data
 	if (data==NULL)
 		return -1;
-
+	
 	sub->data = realloc(sub->data, length + sub->nb_data);
 	if (!sub->data)
 		return EXIT_NOT_ENOUGH_MEMORY;
